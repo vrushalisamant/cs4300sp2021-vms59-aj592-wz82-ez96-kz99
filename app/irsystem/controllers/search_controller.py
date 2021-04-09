@@ -2,7 +2,7 @@ from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 
-project_name = "Be a JokeR"
+project_name = "quolesome-ness"
 net_id = "Anya Ji: aj592, Amber Zheng: wz82, Eunice Zhang: ez96, Kai Zou: kz99, Vrushali Samant: vms59"
 
 @irsystem.route('/', methods=['GET'])
