@@ -55,6 +55,7 @@ def process(reader):
         try:
             # TODO 2: update filepath if required
             with open('quotes_likes.csv', 'a') as f:
+                writer = csv.writer(f)
                 likes = find_match(quote, i)
                 if not likes: likes = find_match(quote, i, sentences=1)
                 if not likes:
