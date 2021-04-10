@@ -27,7 +27,6 @@ def parse_url(url):
         span_s = soup.find_all('span', {'class': 'authorOrTitle'})
         a_s = soup.find_all('a', {'class', 'smallText'})
         if span_s and a_s and len(span_s)>0 and len(a_s)>0: return span_s, a_s
-        else: time.sleep(3)
     return span_s, a_s
 
 def find_match(quote, i, sentences=2):
@@ -59,9 +58,9 @@ def process(reader):
                 likes = find_match(quote, i)
                 if not likes: likes = find_match(quote, i, sentences=1)
                 if not likes:
-                    f.write(','.join([quote.get('quote',''), quote.get('author',''), quote.get('tags',''), '', 'True\n']))
+                    writer.writerow([quote.get('quote',''), quote.get('author',''), quote.get('tags',''), '', 'True\n'])
                 else:
-                    f.write(','.join([quote.get('quote',''), quote.get('author',''), quote.get('tags',''), str(likes), '\n']))
+                    writer.writerow([quote.get('quote',''), quote.get('author',''), quote.get('tags',''), str(likes), '\n'])
         except:
             pass
 
