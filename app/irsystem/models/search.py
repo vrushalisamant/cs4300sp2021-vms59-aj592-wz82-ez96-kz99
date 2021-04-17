@@ -1,5 +1,6 @@
 import pickle
 import pandas as pd
+import numpy as np
 import os
 
 def load_quotes():
@@ -65,5 +66,29 @@ def get_category_matches(tags):
     df = load_quotes()
     return df.iloc[doc_idxs][['quote', 'author', 'tags', 'likes']].head(10)
 
+def inv_idx_likes(inv_idx): 
+    '''
+    Returns the inverted index of a tag in descending 
+    order of likes. 
+    '''
+    df = load_quotes()
+    likes_idx = df.iloc[inv_idx]['likes']
+    likes_arr = likes_idx.to_numpy()
+    #print(likes_idx)
+    #print(likes_arr)
+    #print(np.argsort(likes_arr))
+    #return inv_idx[np.argsort(likes_arr)]
+    return "inv_idx ranked by likes not done yet"
+
+def inv_idx_likes_n(tags): 
+    '''
+    Returns the inverted index given a list of tags 
+    in descending order of likes. 
+    '''
+    inv_idx_n = merge_postings_n(tags)
+    return inv_idx_likes(inv_idx_n)
+
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
+    #life_idx = load_quotes_idx()['life']
+    #print(inv_idx_likes(life_idx))
