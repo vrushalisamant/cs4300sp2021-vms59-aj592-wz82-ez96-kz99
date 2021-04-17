@@ -10,7 +10,7 @@ from flask_socketio import SocketIO
 
 # Configure app
 socketio = SocketIO()
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../quolesome-ness/build", static_folder="../quolesome-ness/build/static")
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
@@ -30,3 +30,7 @@ socketio.init_app(app)
 @app.errorhandler(404)
 def not_found(error):
   return render_template("404.html"), 404
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template("index.html")
