@@ -3,19 +3,32 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Badge from "react-bootstrap/Badge";
 
 function ResultBar(props) {
+  const tags = [];
+  for (var i = 0; i < props.searchInfo.categories.length; i++) {
+    tags.push(
+      <Badge className="mr-1" variant="info" key={i}>
+        {props.searchInfo.categories[i]}
+      </Badge>
+    );
+  }
   return (
-    <Container style={{ width: "70%" }}>
+    <Container style={{ width: "80%" }}>
       <Row>
-        <Col xs={10}>
+        <Col xs={4}>
+          <h3>Your Search:</h3>
+        </Col>
+        <Col xs={6}>
           <Row>
-            <Col>
-              <h3>Your Search:</h3>
-            </Col>
             <Col>{props.searchInfo.text}</Col>
           </Row>
-          <Row></Row>
+          <Row className="mt-4">
+            <Col>
+              <h3>{tags}</h3>
+            </Col>
+          </Row>
         </Col>
 
         <Col xs={2}>
