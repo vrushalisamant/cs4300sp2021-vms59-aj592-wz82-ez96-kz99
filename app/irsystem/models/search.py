@@ -72,13 +72,10 @@ def inv_idx_likes(inv_idx):
     order of likes. 
     '''
     df = load_quotes()
-    likes_idx = df.iloc[inv_idx]['likes']
-    likes_arr = likes_idx.to_numpy()
-    #print(likes_idx)
-    #print(likes_arr)
-    #print(np.argsort(likes_arr))
-    #return inv_idx[np.argsort(likes_arr)]
-    return "inv_idx ranked by likes not done yet"
+    inv_idx = np.array(inv_idx)
+    likes_idx = np.array(df.iloc[inv_idx]['likes'])
+    likes_no_nan = np.array(likes_idx[~(np.isnan(likes_idx))])
+    return inv_idx[np.argsort(likes_no_nan)]
 
 def inv_idx_likes_n(tags): 
     '''
@@ -92,3 +89,4 @@ if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
     #life_idx = load_quotes_idx()['life']
     #print(inv_idx_likes(life_idx))
+    #print(inv_idx_likes_n(['love', 'friendship']))
