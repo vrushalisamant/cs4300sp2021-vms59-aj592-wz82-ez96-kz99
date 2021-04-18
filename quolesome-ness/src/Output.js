@@ -62,7 +62,7 @@ function Output(props) {
 
   return (
     <Container>
-      <Row>
+      <Row className="mt-4">
         <ResultBar searchInfo={props.searchInfo} />
       </Row>
       <Row className="m-5">

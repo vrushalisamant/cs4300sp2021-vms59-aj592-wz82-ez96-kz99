@@ -9,12 +9,13 @@ import Logo from "./Components/Logo.js"
 
 function App() {
   const [isOutput, setOutput] = useState(true); //TODO: set this on clicking search
-  
-  //TODO: search info
+
+  //TODO: search info from Input component
   const searchInfo = {
-    text: "oof",
-    categories: ["life", "sad"],
-    emoji: '😢'
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    categories: ["life", "friendship", "inspirational", "philosophy", "wisdom"],
+    emoji: "😢",
   };
 
   const content = isOutput ? <Output searchInfo={searchInfo} /> : <Input />; //TODO: input page
