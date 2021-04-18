@@ -1,10 +1,11 @@
 import pickle
+import string
 import pandas as pd
 import numpy as np
 import os
 import sys
-
-sys.setdefaultencoding('utf-8')
+from nltk.tokenize import TreebankWordTokenizer
+from collections import Counter
 
 def load_quotes():
     '''
@@ -16,13 +17,22 @@ def load_quotes():
         if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
         dfs.append(pd.read_csv(fpath, header=0, encoding='utf-8'))
     df = pd.concat(dfs)
+    df = df[['quote', 'author', 'tags', 'likes']]
     return df
+
+def load_tags_idx():
+    '''
+    Loads static inverted index
+    '''
+    with open('../../../quotes_likes/inverted_idx_tags.pickle', 'rb') as handle:
+        inv_idx_lookup = pickle.load(handle) 
+    return inv_idx_lookup
 
 def load_quotes_idx():
     '''
     Loads static inverted index
     '''
-    with open('../../../quotes_likes/inverted_idx_tags.pickle', 'rb') as handle:
+    with open('../../../quotes_likes/inverted_idx_tf.pickle', 'rb') as handle:
         inv_idx_lookup = pickle.load(handle) 
     return inv_idx_lookup
 
@@ -52,7 +62,7 @@ def merge_postings_n(tags):
     '''
     Merges inverted indexes of n-many tags together
     '''
-    inv_idx_lookup = load_quotes_idx()
+    inv_idx_lookup = load_tags_idx()
     tags_ordered = sorted([(len(inv_idx_lookup[tag]), tag) for tag in tags], key=lambda x: x[0])
     if len(tags)==1: return inv_idx_lookup[tag]
     for i in range(len(tags)-1):
@@ -71,5 +81,57 @@ def get_category_matches(tags):
     likes_no_nan = likes_no_nan.sort_values(['likes'], ascending=[False])
     return likes_no_nan.head(10).to_json()
 
+def get_cos_sim(query):
+    query = query.translate(string.punctuation)
+    treebank_tokenizer = TreebankWordTokenizer()
+    query = treebank_tokenizer.tokenize(query.lower())
+    inv_idx = load_quotes_idx()
+
+    # generate idf
+    idf = {}
+    min_df=15
+    max_df_ratio=0.1
+    n_docs = 200000
+    for term, doc_counts in inv_idx.items():
+        if len(inv_idx[term]) < min_df: continue
+        if len(inv_idx[term])/n_docs > max_df_ratio: continue
+        idf_score = np.log2(n_docs/(1+len(inv_idx[term])))
+        idf[term] = idf_score
+
+    norms = np.zeros(n_docs)
+    for i, (term, posting) in enumerate(inv_idx.items()):
+        for d, count in posting:
+            norms[d]+=(count*idf.get(term, 0))**2
+    doc_norms = np.sqrt(norms).tolist()
+
+    qcount = Counter(query)
+    djs = {}
+    qnorm = 0
+    for qj, count in qcount.items():
+        if qj not in inv_idx:
+            continue
+        qnorm += (count*idf.get(qj, 0))**2
+        for doc_idx, doc_count in inv_idx[qj]:
+            tf_idf_q = count*idf.get(qj, 0)
+            tf_idf_d = doc_count*idf.get(qj,0)
+            if not doc_idx in djs:
+                djs[doc_idx] = tf_idf_q*tf_idf_d
+            else:
+                djs[doc_idx] += tf_idf_q*tf_idf_d
+    qnorm = np.sqrt(qnorm)
+    results = []
+    for doc_idx, num in djs.items():
+        results.append((num/(qnorm*doc_norms[doc_idx]), doc_idx))
+    results = sorted(results, key=lambda tup: (-tup[0], tup[1]))
+
+    # package results
+    results = results[:10]
+    df = load_quotes()
+    subset = df.iloc[list(map(lambda tup: tup[1], results))]
+    subset.reset_index(inplace=True)
+    subset['similarity'] = list(map(lambda tup: tup[0], results))
+    return subset.to_json()
+
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
+    print(get_cos_sim("so much homework and so little time to complete. I wish school was easier"))
