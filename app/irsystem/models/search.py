@@ -2,6 +2,9 @@ import pickle
 import pandas as pd
 import numpy as np
 import os
+import sys
+
+sys.setdefaultencoding('utf-8')
 
 def load_quotes():
     '''
@@ -11,7 +14,7 @@ def load_quotes():
     for fname in os.listdir('../../../quotes_likes/'):
         fpath = os.path.join('../../../quotes_likes', fname)
         if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
-        dfs.append(pd.read_csv(fpath, header=0))
+        dfs.append(pd.read_csv(fpath, header=0, encoding='utf-8'))
     df = pd.concat(dfs)
     return df
 
@@ -60,33 +63,13 @@ def get_category_matches(tags):
     '''
     Retrieves indexes of relevant documents given list of tags.
     Selects the quote, author, tags, and likes columns
-    Returns the first 10 rows
     '''
     doc_idxs = merge_postings_n(tags)
     df = load_quotes()
-    return df.iloc[doc_idxs][['quote', 'author', 'tags', 'likes']].head(10)
-
-def inv_idx_likes(inv_idx): 
-    '''
-    Returns the inverted index of a tag in descending 
-    order of likes. 
-    '''
-    df = load_quotes()
-    inv_idx = np.array(inv_idx)
-    likes_idx = np.array(df.iloc[inv_idx]['likes'])
-    likes_no_nan = np.array(likes_idx[~(np.isnan(likes_idx))])
-    return inv_idx[np.argsort(likes_no_nan)]
-
-def inv_idx_likes_n(tags): 
-    '''
-    Returns the inverted index given a list of tags 
-    in descending order of likes. 
-    '''
-    inv_idx_n = merge_postings_n(tags)
-    return inv_idx_likes(inv_idx_n)
+    df = df.iloc[doc_idxs][['quote', 'author', 'tags', 'likes']]
+    likes_no_nan = df[df['likes'].notnull()]
+    likes_no_nan = likes_no_nan.sort_values(['likes'], ascending=[False])
+    return likes_no_nan.head(10).to_json()
 
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
-    #life_idx = load_quotes_idx()['life']
-    #print(inv_idx_likes(life_idx))
-    #print(inv_idx_likes_n(['love', 'friendship']))
