@@ -75,7 +75,7 @@ def inv_idx_likes(inv_idx):
     inv_idx = np.array(inv_idx)
     likes_idx = np.array(df.iloc[inv_idx]['likes'])
     likes_no_nan = np.array(likes_idx[~(np.isnan(likes_idx))])
-    return inv_idx[np.argsort(likes_no_nan)]
+    return inv_idx[np.argsort(likes_no_nan)][::-1]
 
 def inv_idx_likes_n(tags): 
     '''
@@ -87,6 +87,6 @@ def inv_idx_likes_n(tags):
 
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
-    #life_idx = load_quotes_idx()['life']
-    #print(inv_idx_likes(life_idx))
-    #print(inv_idx_likes_n(['love', 'friendship']))
+    life_idx = load_quotes_idx()['life']
+    print(inv_idx_likes(life_idx))
+    print(inv_idx_likes_n(['love', 'friendship']))
