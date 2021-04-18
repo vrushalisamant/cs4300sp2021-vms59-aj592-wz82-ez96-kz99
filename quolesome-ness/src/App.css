@@ -1,40 +1,27 @@
 .App {
+  padding-top: 30px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.text {
+  font-size: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  margin-bottom: 30px;
+  color: #ffffff;
+  text-shadow: 2px 1px 5px #797979;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header h1 {
+  font-family: serif;
+  font-weight: 800;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header p {
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: 600;
 }
 
 .like-button {
@@ -46,4 +33,47 @@
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+.input {
+  width: 60% !important; 
+  margin: auto 100px;
+  padding: 30px 30px 0 30px;
+  background-color: #f4ffffa8;
+  border-radius: 10px;
+}
+
+.feeling-moodbar {
+  margin: 30px auto 0 auto !important;
+}
+
+.feeling {
+  width: 600px !important;
+}
+
+.emoji-range {
+  margin: 20px auto 0 auto;
+}
+
+.emoji {
+  font-size: 38px;
+}
+
+.tags {
+  margin: auto !important;
+}
+
+.button {
+  margin: 15px auto 30px auto;
+}
+
+.quote-card {
+  background-color: #f4ffffbb !important;
+  border-radius: 10px !important;
+}
+
+.footer{
+  margin-top: 30px;
+  height: 50px;
+  font-weight: 500;
 }
