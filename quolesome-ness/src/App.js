@@ -8,7 +8,7 @@ import background from "./background.jpg";
 import Logo from "./Components/Logo.js"
 
 function App() {
-  const [isOutput, setOutput] = useState(true); //TODO: set this on clicking search
+  const [isOutput, setOutput] = useState(false); //TODO: set this on clicking search
 
   //TODO: search info from Input component
   const searchInfo = {
