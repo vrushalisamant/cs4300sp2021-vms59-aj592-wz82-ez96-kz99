@@ -12,8 +12,8 @@ def load_quotes():
     Loads quotes data (4 columns: quote, author, tags, likes)
     '''
     dfs = []
-    for fname in os.listdir('../../../quotes_likes/'):
-        fpath = os.path.join('../../../quotes_likes', fname)
+    for fname in os.listdir('./quotes_likes/'):
+        fpath = os.path.join('./quotes_likes', fname)
         if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
         dfs.append(pd.read_csv(fpath, header=0, encoding='utf-8'))
     df = pd.concat(dfs)
@@ -24,7 +24,7 @@ def load_tags_idx():
     '''
     Loads static inverted index
     '''
-    with open('../../../quotes_likes/inverted_idx_tags.pickle', 'rb') as handle:
+    with open('./quotes_likes/inverted_idx_tags.pickle', 'rb') as handle:
         inv_idx_lookup = pickle.load(handle) 
     return inv_idx_lookup
 
@@ -32,7 +32,7 @@ def load_quotes_idx():
     '''
     Loads static inverted index
     '''
-    with open('../../../quotes_likes/inverted_idx_tf.pickle', 'rb') as handle:
+    with open('./quotes_likes/inverted_idx_tf.pickle', 'rb') as handle:
         inv_idx_lookup = pickle.load(handle) 
     return inv_idx_lookup
 
@@ -79,19 +79,20 @@ def get_category_matches(tags):
     df = df.iloc[doc_idxs][['quote', 'author', 'tags', 'likes']]
     likes_no_nan = df[df['likes'].notnull()]
     likes_no_nan = likes_no_nan.sort_values(['likes'], ascending=[False])
-    return likes_no_nan.head(10).to_json()
+    return likes_no_nan.head(10).to_json(orient = "records")
 
 def get_cos_sim(query):
     query = query.translate(string.punctuation)
     treebank_tokenizer = TreebankWordTokenizer()
     query = treebank_tokenizer.tokenize(query.lower())
     inv_idx = load_quotes_idx()
+    df = load_quotes()
 
     # generate idf
     idf = {}
     min_df=15
     max_df_ratio=0.1
-    n_docs = 200000
+    n_docs = df.shape[0]
     for term, doc_counts in inv_idx.items():
         if len(inv_idx[term]) < min_df: continue
         if len(inv_idx[term])/n_docs > max_df_ratio: continue
@@ -126,12 +127,11 @@ def get_cos_sim(query):
 
     # package results
     results = results[:10]
-    df = load_quotes()
     subset = df.iloc[list(map(lambda tup: tup[1], results))]
     subset.reset_index(inplace=True)
     subset['similarity'] = list(map(lambda tup: tup[0], results))
-    return subset.to_json()
+    return subset.to_json(orient = "records")
 
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
-    print(get_cos_sim("so much homework and so little time to complete. I wish school was easier"))
+    print(get_cos_sim("I wish school was easier"))
