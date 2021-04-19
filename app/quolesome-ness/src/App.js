@@ -1,46 +1,63 @@
 import "./App.css";
 import React, { useState } from "react";
 import Output from "./Output";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Input from './Input.js';
+import "bootstrap/dist/css/bootstrap.min.css";
+import Input from "./Input.js";
 import Image from "react-bootstrap/Image";
 import background from "./background.jpg";
-import Logo from "./Components/Logo.js"
+import Logo from "./Components/Logo.js";
 
 function App() {
-  const queryString = require('query-string');
+  const queryString = require("query-string");
   const [isOutput, setOutput] = useState(false); //TODO: set this on clicking search
-  const [searchResult, setResult] = useState([{}])
+  const [searchResult, setResult] = useState([{}]);
   //TODO: search info from Input component
-  
+
   const searchInfo = {
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     categories: ["life", "friendship", "inspirational", "philosophy", "wisdom"],
     emoji: "😢",
   };
-  const handleSubmit = (tags)=>{
-    tags = queryString.stringify({tags:searchInfo.categories});
-    fetch(`/search?+${tags}`).then(
-      response => response.json()
-    ).then(data => {
-      setResult(data);
-      setOutput(true);
-    })
-  }
+  const handleSubmit = (tags) => {
+    tags = queryString.stringify({ tags: searchInfo.categories });
+    fetch(`/search?+${tags}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setResult(data);
+        setOutput(true);
+      });
+  };
+
   return (
-    <div className="App" style={{ backgroundImage: `url(${background})`, 
-                                  backgroundPosition: 'center',
-                                  backgroundSize: 'cover',
-                                  backgroundRepeat: 'no-repeat'}}>
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundPosition: "center",
+        backgroundSize: "auto",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="header">
         <h1>QUOLESOME-NESS</h1>
         <Logo />
         <p>Feeling down? Let's find you some wholesome quotes!</p>
       </div>
-      {isOutput ? <Output searchInfo={searchInfo} searchResult = {searchResult} /> : <Input handleSubmit = {handleSubmit} />}
+      {isOutput ? (
+        <Output
+          searchInfo={searchInfo}
+          searchResult={searchResult}
+          handleBack={() => setOutput(false)}
+        />
+      ) : (
+        <Input handleSubmit={handleSubmit} />
+      )}
       <div className="footer">
-        <p>Created by: Amber Zheng, Anya Ji, Eunice Zhang, Kai Zou, Vrushali Samant </p>
+        <p>
+          Created by: Amber Zheng, Anya Ji, Eunice Zhang, Kai Zou, Vrushali
+          Samant{" "}
+        </p>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ResultBar from "./Components/ResultBar";
+import Button from "react-bootstrap/Button";
 
 function Output(props) {
   //TODO: fetch quotes
@@ -25,8 +26,17 @@ function Output(props) {
 
   return (
     <Container>
-      <Row className="mt-4">
+      <Row className="mt-4 mb-2">
         <ResultBar searchInfo={props.searchInfo} />
+      </Row>
+      <Row>
+        <Button
+          variant="outline-info"
+          className="button"
+          onClick={() => props.handleBack()}
+        >
+          Back to Search
+        </Button>
       </Row>
       <Row className="m-5">
         <Col>{cards} </Col>
