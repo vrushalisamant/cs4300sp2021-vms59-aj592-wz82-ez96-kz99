@@ -18,7 +18,8 @@ function App() {
     //modify searchInfo here
     setInfo(searchInfo);
     var tags = queryString.stringify({tags:searchInfo.tags});
-    fetch(`/search?+${tags}`).then(
+    console.log(tags);
+    fetch(`/search?${tags}`).then(
       response => response.json()
     ).then(data => {
       setResult(data);
