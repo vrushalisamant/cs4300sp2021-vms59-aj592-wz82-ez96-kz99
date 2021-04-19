@@ -1,3 +1,4 @@
+import json
 import pickle
 import string
 import pandas as pd
@@ -64,7 +65,7 @@ def merge_postings_n(tags):
     '''
     inv_idx_lookup = load_tags_idx()
     tags_ordered = sorted([(len(inv_idx_lookup[tag]), tag) for tag in tags], key=lambda x: x[0])
-    if len(tags)==1: return inv_idx_lookup[tag]
+    if len(tags)==1: return inv_idx_lookup[tags[0]]
     for i in range(len(tags)-1):
         merged = merge_postings(inv_idx_lookup[tags_ordered[i][1]], inv_idx_lookup[tags_ordered[i+1][1]])
     return merged
@@ -76,7 +77,7 @@ def get_category_matches(tags):
     '''
     doc_idxs = merge_postings_n(tags)
     df = load_quotes()
-    df = df.iloc[doc_idxs][['quote', 'author', 'tags', 'likes']]
+    df = df.iloc[doc_idxs]
     likes_no_nan = df[df['likes'].notnull()]
     likes_no_nan = likes_no_nan.sort_values(['likes'], ascending=[False])
     return likes_no_nan.head(10).to_json(orient = "records")
@@ -138,5 +139,5 @@ def get_categories():
     return load_tags_idx().keys()
 
 if __name__ == '__main__':
-    print(get_category_matches(['love', 'friendship']))
-    print(get_cos_sim("I wish school was easier"))
+    print(json.dumps(json.JSONDecoder().decode(get_category_matches(['funny'])), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))
