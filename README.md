@@ -110,15 +110,19 @@ CREATE DATABASE my_app_db;
 ```
 The above creates the actual database that will be used for this application and the name of the database is `my_app_db` which you can change, but make sure to change the `.env` file and in your production app accordingly which I will talk about lower in this guide.
 
-### 5. Check to see if app runs fine by running in localhost:
+### 5. Build NodeJS artifacts
+``` bash
+cd app/quolesome-ness
+npm install
+npm run build
+```
+
+### 6. Check to see if app runs fine by running in localhost:
 ``` bash
 python3 app.py
 ```
 
-If you encounter a `KeyError: 'APP_SETTINGS'`, try running `source .env` (Mac) or `call env.bat` (Windows) again.
-At this point the app should be running on [http://localhost:5000/](http://localhost:5000/). Navigate to that URL in your browser.
-
-### 6. Push to heroku
+### 7. Push to heroku
 We have included a Procfile (*process file*) that leverages gunicorn (which you can read more about [here](https://devcenter.heroku.com/articles/python-gunicorn)) for deployment.
 
 To set up heroku and push this app to it, you must do the following:
