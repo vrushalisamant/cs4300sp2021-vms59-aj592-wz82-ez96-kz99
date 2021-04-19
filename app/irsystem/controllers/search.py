@@ -66,6 +66,7 @@ def merge_postings_n(tags):
     inv_idx_lookup = load_tags_idx()
     tags_ordered = sorted([(len(inv_idx_lookup[tag]), tag) for tag in tags], key=lambda x: x[0])
     if len(tags)==1: return inv_idx_lookup[tags[0]]
+    merged = []
     for i in range(len(tags)-1):
         merged = merge_postings(inv_idx_lookup[tags_ordered[i][1]], inv_idx_lookup[tags_ordered[i+1][1]])
     return merged
