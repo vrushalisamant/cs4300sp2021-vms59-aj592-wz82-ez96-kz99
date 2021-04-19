@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TagSelect from './Components/TagSelect.js';
 
-function Input() {
+function Input(props) {
   return (
 
     <Container className="input">
@@ -47,7 +47,7 @@ function Input() {
         <Row>
           <Col>
             {/* TODO: Direct to output page after submit */}
-            <Button variant="info" className="button" name="submit">Find Your Quotes</Button>{' '}
+            <Button variant="info" className="button" name="submit" onClick = {(e) => props.handleSubmit(["life","friendship"])}>Find Your Quotes</Button>{' '}
           </Col>
         </Row>
 
