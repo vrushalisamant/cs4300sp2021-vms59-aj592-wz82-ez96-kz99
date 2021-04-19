@@ -10,25 +10,21 @@ import Logo from "./Components/Logo.js";
 function App() {
   const queryString = require("query-string");
   const [isOutput, setOutput] = useState(false); //TODO: set this on clicking search
-  const [searchResult, setResult] = useState([{}]);
+  const [searchInfo, setInfo] = useState([{}])
+  const [searchResult, setResult] = useState([{}])
   //TODO: search info from Input component
-
-  const searchInfo = {
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    categories: ["life", "friendship", "inspirational", "philosophy", "wisdom"],
-    emoji: "😢",
-  };
-  const handleSubmit = (tags) => {
-    tags = queryString.stringify({ tags: searchInfo.categories });
-    fetch(`/search?+${tags}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setResult(data);
-        setOutput(true);
-      });
-  };
-
+  
+  const handleSubmit = (searchInfo)=>{
+    //modify searchInfo here
+    setInfo(searchInfo);
+    var tags = queryString.stringify({tags:searchInfo.tags});
+    fetch(`/search?+${tags}`).then(
+      response => response.json()
+    ).then(data => {
+      setResult(data);
+      setOutput(true);
+    })
+  }
   return (
     <div
       className="App"

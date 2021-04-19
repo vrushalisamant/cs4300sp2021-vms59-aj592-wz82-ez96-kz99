@@ -8,16 +8,19 @@ import Col from "react-bootstrap/Col";
 import TagSelect from "./Components/TagSelect.js";
 
 function Input(props) {
+  const [selected, setSelected] = useState([]);
   return (
     <Container className="input">
-      <Row className="justify-content-center">
-        <Form>
-          <Row className="tags">
-            <Col>
-              {/* TODO: Extract tags selected */}
-              <TagSelect />
-            </Col>
-          </Row>
+      <Form>
+
+        <Row className="tags">
+          <Col>
+            {/* TODO: Extract tags selected */}
+            <TagSelect selected = {selected} setSelected = {setSelected}/>
+          </Col>
+        </Row>
+
+        <Row className="feeling-moodbar">
 
           <Row className="feeling-moodbar">
             <Col className="feeling">
@@ -50,21 +53,14 @@ function Input(props) {
             </Col>
           </Row>
 
-          <Row>
-            <Col>
-              {/* TODO: Direct to output page after submit */}
-              <Button
-                variant="info"
-                className="button"
-                name="submit"
-                onClick={(e) => props.handleSubmit(["life", "friendship"])}
-              >
-                Find Your Quotes
-              </Button>{" "}
-            </Col>
-          </Row>
-        </Form>
+        <Row>
+          <Col>
+            {/* TODO: Direct to output page after submit */}
+            <Button variant="info" className="button" name="submit" onClick = {(e) => props.handleSubmit({"text": "N/A", "tags": selected.map((item)=>{return item.value}), "emoji":"😢"})}>Find Your Quotes</Button>{' '}
+          </Col>
+        </Row>
       </Row>
+      </Form>
     </Container>
   );
 }

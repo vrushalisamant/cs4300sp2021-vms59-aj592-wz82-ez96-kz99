@@ -7,10 +7,10 @@ import Badge from "react-bootstrap/Badge";
 
 function ResultBar(props) {
   const tags = [];
-  for (var i = 0; i < props.searchInfo.categories.length; i++) {
+  for (var i = 0; i < props.searchInfo.tags.length; i++) {
     tags.push(
       <Badge className="mr-1" variant="info" key={i}>
-        {props.searchInfo.categories[i]}
+        {props.searchInfo.tags[i]}
       </Badge>
     );
   }

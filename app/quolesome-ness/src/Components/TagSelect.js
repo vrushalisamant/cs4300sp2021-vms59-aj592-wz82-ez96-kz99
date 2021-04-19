@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import MultiSelect from "react-multi-select-component";
 
-function TagSelect(tags) { 
+function TagSelect(props) { 
   const options = [
-    { label: "Grapes 🍇", value: "grapes" },
-    { label: "Mango 🥭", value: "mango" },
-    { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-    { label: "Watermelon 🍉", value: "watermelon" },
-    { label: "Pear 🍐", value: "pear" },
-    { label: "Apple 🍎", value: "apple" },
-    { label: "Tangerine 🍊", value: "tangerine" },
-    { label: "Pineapple 🍍", value: "pineapple" },
-    { label: "Peach 🍑", value: "peach" },
+    { label: "Life", value: "life" },
+    { label: "Love", value: "love" },
+    { label: "Inspirational", value: "inspirational"},
+    { label: "Philosophy", value: "philosophy" },
+    { label: "Humor", value: "humor" },
+    { label: "God", value: "god" },
+    { label: "Truth", value: "truth" },
+    { label: "Wisdom", value: "Writing" },
+    { label: "Death", value: "Death" },
   ];
-
-const [selected, setSelected] = useState([]);
 
   return (
     <div>
@@ -23,8 +21,8 @@ const [selected, setSelected] = useState([]);
       {/* TODO: Extract tags selected */}
       <MultiSelect
         options={options}
-        value={selected}
-        onChange={setSelected}
+        value={props.selected}
+        onChange={props.setSelected}
         labelledBy="Select"
       />
     </div>

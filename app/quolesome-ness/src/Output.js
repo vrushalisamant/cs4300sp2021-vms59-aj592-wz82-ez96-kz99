@@ -10,7 +10,6 @@ import Button from "react-bootstrap/Button";
 function Output(props) {
   //TODO: fetch quotes
   const data = props.searchResult;
-  console.log(data[0]);
   const cards = [];
   for (var i = 0; i < data.length; i++) {
     cards.push(
