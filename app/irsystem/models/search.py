@@ -82,6 +82,7 @@ def get_category_matches(tags):
     return likes_no_nan.head(10).to_json(orient = "records")
 
 def get_cos_sim(query):
+    '''Return 10 most highly ranked quotes for search query in json'''
     query = query.translate(string.punctuation)
     treebank_tokenizer = TreebankWordTokenizer()
     query = treebank_tokenizer.tokenize(query.lower())
@@ -131,6 +132,10 @@ def get_cos_sim(query):
     subset.reset_index(inplace=True)
     subset['similarity'] = list(map(lambda tup: tup[0], results))
     return subset.to_json(orient = "records")
+
+def get_categories():
+    '''Return categories for drop-down menu'''
+    return load_tags_idx().keys()
 
 if __name__ == '__main__':
     print(get_category_matches(['love', 'friendship']))
