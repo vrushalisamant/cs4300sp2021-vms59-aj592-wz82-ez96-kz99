@@ -10,7 +10,7 @@ function TagSelect(props) {
     { label: "Humor", value: "humor" },
     { label: "God", value: "god" },
     { label: "Truth", value: "truth" },
-    { label: "Wisdom", value: "Writing" },
+    { label: "Wisdom", value: "wisdom" },
     { label: "Death", value: "Death" },
   ];
 
