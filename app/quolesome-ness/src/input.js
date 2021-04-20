@@ -12,16 +12,14 @@ function Input(props) {
   return (
     <Container className="input">
       <Form>
-
         <Row className="tags">
           <Col>
             {/* TODO: Extract tags selected */}
-            <TagSelect selected = {selected} setSelected = {setSelected}/>
+            <TagSelect selected={selected} setSelected={setSelected} />
           </Col>
         </Row>
 
         <Row className="feeling-moodbar">
-
           <Row className="feeling-moodbar">
             <Col className="feeling">
               <Form.Group controlId="feelingDescription">
@@ -31,7 +29,8 @@ function Input(props) {
                 {/* TODO: Extract feeling input */}
                 <Form.Control as="textarea" rows={3} name="feelingInput" />
                 <Form.Text className="text-muted">
-                  Are you feeling lonely? Troubled by anything? Tell us about it :)
+                  Are you feeling lonely? Troubled by anything? Tell us about it
+                  :)
                 </Form.Text>
               </Form.Group>
             </Col>
@@ -56,7 +55,22 @@ function Input(props) {
         <Row>
           <Col>
             {/* TODO: Direct to output page after submit */}
-            <Button variant="info" className="button" name="submit" onClick = {(e) => props.handleSubmit({"text": "N/A", "tags": selected.map((item)=>{return item.value}), "emoji":"😢"})}>Find Your Quotes</Button>{' '}
+            <Button
+              variant="info"
+              className="button"
+              name="submit"
+              onClick={(e) =>
+                props.handleSubmit({
+                  text: "N/A",
+                  tags: selected.map((item) => {
+                    return item.value;
+                  }),
+                  emoji: "😢",
+                })
+              }
+            >
+              Find Your Quotes
+            </Button>{" "}
           </Col>
         </Row>
       </Form>
