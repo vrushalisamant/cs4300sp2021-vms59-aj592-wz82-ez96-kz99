@@ -32,7 +32,7 @@ function App() {
       style={{
         backgroundImage: `url(${background})`,
         backgroundPosition: "center",
-        backgroundSize: "auto",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >

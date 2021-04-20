@@ -8,3 +8,5 @@ vagrant/a4keypair.pem
 *.iml
 .DS_Store
 */.DS_Store
+quolesome-ness/node_modules
+cs4300-env/

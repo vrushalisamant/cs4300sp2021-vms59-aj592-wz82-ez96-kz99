@@ -37,7 +37,7 @@
 
 .input {
   width: 60% !important; 
-  margin: auto 100px;
+  margin: auto !important;
   padding: 30px 30px 0 30px;
   background-color: #f4ffffa8;
   border-radius: 10px;
@@ -48,7 +48,7 @@
 }
 
 .feeling {
-  width: 600px !important;
+  width: 60% !important;
 }
 
 .emoji-range {
@@ -57,7 +57,7 @@
 }
 
 .emoji {
-  font-size: 38px;
+  font-size: 2.5vw;
 }
 
 .tags {

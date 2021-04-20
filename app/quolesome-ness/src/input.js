@@ -31,8 +31,7 @@ function Input(props) {
                 {/* TODO: Extract feeling input */}
                 <Form.Control as="textarea" rows={3} name="feelingInput" />
                 <Form.Text className="text-muted">
-                  Are you feeling lonely? Troubled by anything? Tell us about it
-                  :)
+                  Are you feeling lonely? Troubled by anything? Tell us about it :)
                 </Form.Text>
               </Form.Group>
             </Col>
@@ -52,6 +51,7 @@ function Input(props) {
               <p className="emoji">😌 🙂 😐 🙁 😢 😰 😭</p>
             </Col>
           </Row>
+        </Row>
 
         <Row>
           <Col>
@@ -59,7 +59,6 @@ function Input(props) {
             <Button variant="info" className="button" name="submit" onClick = {(e) => props.handleSubmit({"text": "N/A", "tags": selected.map((item)=>{return item.value}), "emoji":"😢"})}>Find Your Quotes</Button>{' '}
           </Col>
         </Row>
-      </Row>
       </Form>
     </Container>
   );
