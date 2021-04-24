@@ -17,8 +17,10 @@ def load_quotes():
         fpath = os.path.join('./quotes_likes', fname)
         if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
         dfs.append(pd.read_csv(fpath, header=0, encoding='utf-8'))
-    df = pd.concat(dfs)
+    df = pd.concat(dfs).reset_index(drop=True)
     df = df[['quote', 'author', 'tags', 'likes']]
+    df['tags'] = df['tags'].str.split(',')
+    df = df[df['tags'].notnull()]
     return df
 
 def load_tags_idx():
@@ -79,12 +81,13 @@ def get_category_matches(tags):
     doc_idxs = merge_postings_n(tags)
     df = load_quotes()
     df = df.iloc[doc_idxs]
-    likes_no_nan = df[df['likes'].notnull()]
-    likes_no_nan = likes_no_nan.sort_values(['likes'], ascending=[False])
-    return likes_no_nan.head(10).to_json(orient = "records")
+    df= df[df['likes'].notnull()]
+    df = df.sort_values(['likes'], ascending=[False])
+    return df.head(10).to_json(orient = "records")
 
-def get_cos_sim(query):
+def get_cos_sim(query, tags=[]):
     '''Return 10 most highly ranked quotes for search query in json'''
+    doc_idxs = merge_postings_n(tags)
     query = query.translate(string.punctuation)
     treebank_tokenizer = TreebankWordTokenizer()
     query = treebank_tokenizer.tokenize(query.lower())
@@ -126,7 +129,11 @@ def get_cos_sim(query):
     results = []
     for doc_idx, num in djs.items():
         results.append((num/(qnorm*doc_norms[doc_idx]), doc_idx))
-    results = sorted(results, key=lambda tup: (-tup[0], tup[1]))
+    if not doc_idxs:
+        results = sorted(results, key=lambda tup: (-tup[0], tup[1]))
+    else:
+        results = list(filter(lambda tup: tup[1] in doc_idxs, results))
+        results = sorted(results, key=lambda tup: (-tup[0], tup[1]))
 
     # package results
     results = results[:10]
@@ -140,5 +147,7 @@ def get_categories():
     return load_tags_idx().keys()
 
 if __name__ == '__main__':
-    print(json.dumps(json.JSONDecoder().decode(get_category_matches(['funny'])), indent=4))
-    print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier", tags=['school'])), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_cos_sim("My friends and I are drifting away from each other", tags=['friendship'])), indent=4))

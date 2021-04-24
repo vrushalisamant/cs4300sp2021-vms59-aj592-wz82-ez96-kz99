@@ -14,10 +14,10 @@ for fname in os.listdir('../quotes_likes/'):
     if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
     dfs.append(pd.read_csv(fpath, header=0))
 # inverted index for tags
-df = pd.concat(dfs)
+df = pd.concat(dfs).reset_index(drop=True)
 df = df[['quote', 'author', 'tags', 'likes']]
-'''
 df['tags'] = df['tags'].str.split(',')
+df['tags'] = df['tags'].apply(lambda l: list(map(lambda element: element.strip(), l)) if type(l)==list else l)
 df = df[df['tags'].notnull()]
 
 tags = defaultdict(list)
@@ -30,7 +30,6 @@ for index, row in df.iterrows():
 with open('../quotes_likes/inverted_idx_tags.pickle', 'wb') as f:
     pickle.dump(tags, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-'''
 # inverted index for terms in quotes
 tokenizer = TreebankWordTokenizer()
 inv_idx = {}
