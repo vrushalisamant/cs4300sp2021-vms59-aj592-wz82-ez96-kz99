@@ -9,7 +9,15 @@ from nltk.tokenize import TreebankWordTokenizer
 from collections import Counter
 from gensim import similarities, corpora, models
 from nltk.corpus import stopwords
-
+from nltk import download
+import ssl
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+download('stopwords')
 stop_words = set(stopwords.words('english')) 
 
 def load_quotes():
