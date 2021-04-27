@@ -164,7 +164,7 @@ def get_lsi_sim(query):
     return subset.to_json(orient = "records")
 
 if __name__ == '__main__':
-    print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are drifting away from each other")), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart")), indent=4))
     print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("I wish school was easier")), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))

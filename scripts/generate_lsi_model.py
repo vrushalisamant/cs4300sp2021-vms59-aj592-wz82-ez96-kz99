@@ -16,14 +16,10 @@ nltk.download('stopwords')
 stop_words = nltk.corpus.stopwords.words("english")
 #stop_words = set(stopwords.words('english'))
 
-dfs = []
-for fname in os.listdir('./quotes_likes/'):
-    fpath = os.path.join('./quotes_likes', fname)
-    if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
-    dfs.append(pd.read_csv(fpath, header=0))
+df = pd.read_csv('quotes_likes/quotes_likes_0-100K.csv', header=0)
+df = df.head(10000)
 
 # inverted index for tags
-df = pd.concat(dfs).reset_index(drop=True)
 df = df[['quote', 'author', 'tags', 'likes']]
 df['tags'] = df['tags'].str.split(',')
 df['tags'] = df['tags'].apply(lambda l: list(map(lambda element: element.strip(), l)    ) if type(l)==list else l)
