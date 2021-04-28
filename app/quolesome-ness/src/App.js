@@ -17,15 +17,27 @@ function App() {
   const handleSubmit = (searchInfo)=>{
     //modify searchInfo here
     setInfo(searchInfo);
-    var tags = queryString.stringify({tags:searchInfo.tags});
-    console.log(tags);
-    fetch(`/search?${tags}`).then(
+    // var tags = queryString.stringify({tags:searchInfo.tags});
+    // console.log(tags);
+    // fetch(`/search?${tags}`).then(
+    //   response => response.json()
+    // ).then(data => {
+    //   setResult(data);
+    //   setOutput(true);
+    // })
+
+    //SVD
+    var query = queryString.stringify({text:searchInfo.text});
+    console.log(query);
+    fetch(`/search/text?${query}`).then(
       response => response.json()
     ).then(data => {
       setResult(data);
       setOutput(true);
     })
+
   }
+
   return (
     <div
       className="App"

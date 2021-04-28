@@ -9,6 +9,7 @@ import TagSelect from "./Components/TagSelect.js";
 
 function Input(props) {
   const [selected, setSelected] = useState([]);
+  const [text, setText] = useState("");
   return (
     <Container className="input">
       <Form>
@@ -27,7 +28,15 @@ function Input(props) {
                   How are you feeling today?
                 </Form.Label>
                 {/* TODO: Extract feeling input */}
-                <Form.Control as="textarea" rows={3} name="feelingInput" />
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="feelingInput"
+                  value={text}
+                  onChange={({ target: { value } }) => {
+                    setText(value);
+                  }}
+                />
                 <Form.Text className="text-muted">
                   Are you feeling lonely? Troubled by anything? Tell us about it
                   :)
@@ -54,14 +63,13 @@ function Input(props) {
 
         <Row>
           <Col>
-            {/* TODO: Direct to output page after submit */}
             <Button
               variant="info"
               className="button"
               name="submit"
               onClick={(e) =>
                 props.handleSubmit({
-                  text: "N/A",
+                  text: text,
                   tags: selected.map((item) => {
                     return item.value;
                   }),

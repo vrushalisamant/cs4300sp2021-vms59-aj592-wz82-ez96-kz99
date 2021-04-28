@@ -13,6 +13,12 @@ def search():
 	print(tags)
 	return get_category_matches(tags)
 
-
+@irsystem.route('/search/text', methods=['GET'])
+def search_text():
+	query = request.args.get("text")
+	if (query is None):
+		return ""
+	print(query)
+	return get_lsi_sim(query)
 
 
