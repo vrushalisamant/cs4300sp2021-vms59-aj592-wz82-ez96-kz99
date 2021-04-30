@@ -18,7 +18,6 @@ except AttributeError:
 else:
     ssl._create_default_https_context = _create_unverified_https_context
 download('stopwords')
-stop_words = set(stopwords.words('english')) 
 
 def load_quotes():
     '''
@@ -159,6 +158,7 @@ def get_categories():
     return load_tags_idx().keys()
 
 def get_lsi_sim(query):
+    stop_words = set(stopwords.words('english')) 
     index = similarities.MatrixSimilarity.load('quotes_likes/quotes.index')
     dictionary = corpora.dictionary.Dictionary.load('quotes_likes/quotes.dict')
     doc = [word for word in query.lower().split() if word not in stop_words]
@@ -169,6 +169,11 @@ def get_lsi_sim(query):
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
     df = load_quotes()
     subset = df.iloc[list(map(lambda tup: tup[0], sims[:10]))]
+    print(list(map(lambda tup: tup[0], sims[:10])))
+    del dictionary
+    del lsi
+    del sims
+    del stop_words
     return subset.to_json(orient = "records")
 
 if __name__ == '__main__':
