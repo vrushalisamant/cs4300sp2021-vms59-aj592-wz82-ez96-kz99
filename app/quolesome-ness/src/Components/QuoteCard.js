@@ -48,7 +48,7 @@ export default function QuoteCard(props) {
   );
 
   const tags = [];
-  const categories_list = props.categories.split(", ");
+  const categories_list = props.categories;
   for (var i = 0; i < categories_list.length; i++) {
     tags.push(
       <Badge className="mr-1" variant="info" key={i}>

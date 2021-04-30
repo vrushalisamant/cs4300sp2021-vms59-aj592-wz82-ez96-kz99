@@ -1,7 +1,6 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
-import MultiSelect from "react-multi-select-component";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,7 +14,6 @@ function Input(props) {
       <Form>
         <Row className="tags">
           <Col>
-            {/* TODO: Extract tags selected */}
             <TagSelect selected={selected} setSelected={setSelected} />
           </Col>
         </Row>

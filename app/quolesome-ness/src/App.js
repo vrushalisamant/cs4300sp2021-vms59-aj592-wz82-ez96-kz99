@@ -3,20 +3,22 @@ import React, { useState } from "react";
 import Output from "./Output";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "./Input.js";
-import Image from "react-bootstrap/Image";
 import background from "./background.jpg";
 import Logo from "./Components/Logo.js";
+import Loader from "react-loader-spinner";
 
 function App() {
   const queryString = require("query-string");
-  const [isOutput, setOutput] = useState(false); //TODO: set this on clicking search
-  const [searchInfo, setInfo] = useState([{}])
-  const [searchResult, setResult] = useState([{}])
-  //TODO: search info from Input component
-  
-  const handleSubmit = (searchInfo)=>{
+  const [isOutput, setOutput] = useState(false);
+  const [searchInfo, setInfo] = useState([{}]);
+  const [searchResult, setResult] = useState([{}]);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (searchInfo) => {
     //modify searchInfo here
     setInfo(searchInfo);
+    setLoading(true);
+    //tags only
     // var tags = queryString.stringify({tags:searchInfo.tags});
     // console.log(tags);
     // fetch(`/search?${tags}`).then(
@@ -27,16 +29,17 @@ function App() {
     // })
 
     //SVD
-    var query = queryString.stringify({text:searchInfo.text});
+    var query = queryString.stringify({ text: searchInfo.text });
     console.log(query);
-    fetch(`/search/text?${query}`).then(
-      response => response.json()
-    ).then(data => {
-      setResult(data);
-      setOutput(true);
-    })
-
-  }
+    fetch(`/search/text?${query}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        setResult(data);
+        //[{quote: string, author: string, tags: [string], likes: number}]
+        setOutput(true);
+      });
+  };
 
   return (
     <div
@@ -60,7 +63,20 @@ function App() {
           handleBack={() => setOutput(false)}
         />
       ) : (
-        <Input handleSubmit={handleSubmit} />
+        <div>
+          {loading ? (
+            <Loader
+              className="loader"
+              type="ThreeDots"
+              color="#2fd5eb"
+              height={200}
+              width={200}
+            />
+          ) : (
+            <></>
+          )}
+          <Input handleSubmit={handleSubmit} />
+        </div>
       )}
       <div className="footer">
         <p>
