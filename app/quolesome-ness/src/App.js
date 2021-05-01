@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useState } from "react";
 import Output from "./Output";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Input from "./Input.js";
+import Input from "./input.js";
 import background from "./background.jpg";
 import Logo from "./Components/Logo.js";
 import Button from "react-bootstrap/Button";
