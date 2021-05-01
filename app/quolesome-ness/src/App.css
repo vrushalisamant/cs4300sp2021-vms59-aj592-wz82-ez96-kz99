@@ -58,6 +58,7 @@
 
 .emoji {
   font-size: 2.5vw;
+  cursor: pointer;
 }
 
 .tags {

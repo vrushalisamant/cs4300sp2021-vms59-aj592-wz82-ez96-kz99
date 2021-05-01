@@ -9,6 +9,8 @@ import TagSelect from "./Components/TagSelect.js";
 function Input(props) {
   const [selected, setSelected] = useState([]);
   const [text, setText] = useState("");
+  const [emoji, setEmoji] = useState("");
+
   return (
     <Container className="input">
       <Form>
@@ -23,7 +25,7 @@ function Input(props) {
             <Col className="feeling">
               <Form.Group controlId="feelingDescription">
                 <Form.Label className="text">
-                  How are you feeling today?
+                  What's on your mind?
                 </Form.Label>
                 {/* TODO: Extract feeling input */}
                 <Form.Control
@@ -31,6 +33,7 @@ function Input(props) {
                   rows={3}
                   name="feelingInput"
                   value={text}
+                  placeholder="School is stressful..."
                   onChange={({ target: { value } }) => {
                     setText(value);
                   }}
@@ -45,16 +48,31 @@ function Input(props) {
             <Col className="moodbar">
               <Form.Group controlId="moodRange">
                 <Form.Label className="text">
-                  Indicate your emotional state:
+                  {'Indicate your emotional state:  '+ emoji}
                 </Form.Label>
-                {/* TODO: Extract mood input */}
-                <Form.Control
-                  type="range"
-                  className="emoji-range"
-                  name="moodInput"
-                />
               </Form.Group>
-              <p className="emoji">😌 🙂 😐 🙁 😢 😰 😭</p>
+              <Row className="ml-3">
+                <Col>
+                  <p className="emoji" onClick={() => {setEmoji("😐")}}>
+                    😐
+                  </p>
+                </Col>
+                <Col>
+                  <p className="emoji" onClick={() => {setEmoji("😢")}}>
+                    😢
+                  </p>
+                </Col>
+                <Col>
+                  <p className="emoji" onClick={() => {setEmoji("😰")}}>
+                    😰
+                  </p>
+                </Col>
+                <Col>
+                  <p className="emoji" onClick={() => {setEmoji("😭")}}>
+                    😭
+                  </p>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Row>
@@ -71,7 +89,7 @@ function Input(props) {
                   tags: selected.map((item) => {
                     return item.value;
                   }),
-                  emoji: "😢",
+                  emoji: emoji,
                 })
               }
             >
