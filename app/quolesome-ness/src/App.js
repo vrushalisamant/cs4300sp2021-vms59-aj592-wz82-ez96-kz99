@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Input from "./Input.js";
 import background from "./background.jpg";
 import Logo from "./Components/Logo.js";
+import Button from "react-bootstrap/Button";
 import Loader from "react-loader-spinner";
 
 function App() {
@@ -51,6 +52,12 @@ function App() {
         backgroundRepeat: "no-repeat",
       }}
     >
+      <a href="https://quolesome-ness.herokuapp.com">
+        <Button variant="outline-light" className="button version">
+          Prototype 1
+        </Button>
+      </a>
+
       <div className="header">
         <h1>QUOLESOME-NESS</h1>
         <Logo />
