@@ -157,7 +157,7 @@ def get_categories():
     '''Return categories for drop-down menu'''
     return load_tags_idx().keys()
 
-def get_lsi_sim(query):
+def get_lsi_sim(query, tags=[]):
     stop_words = set(stopwords.words('english')) 
     index = similarities.MatrixSimilarity.load('quotes_likes/quotes.index')
     dictionary = corpora.dictionary.Dictionary.load('quotes_likes/quotes.dict')
@@ -166,20 +166,33 @@ def get_lsi_sim(query):
     lsi = models.LsiModel.load('quotes_likes/quotes.model')
     vec_lsi = lsi[vec_bow]  # convert the query to LSI space
     sims = index[vec_lsi]  # perform a similarity query against the corpus
-    sims = sorted(enumerate(sims), key=lambda item: -item[1])
-    df = load_quotes()
-    subset = df.iloc[list(map(lambda tup: tup[0], sims[:10]))]
-    print(list(map(lambda tup: tup[0], sims[:10])))
     del dictionary
     del lsi
-    del sims
     del stop_words
-    return subset.to_json(orient = "records")
+
+    if tags:
+        #sims = [[i,sim] for i, sim in enumerate(sims)]
+        doc_idxs = merge_postings_n(tags)
+        sim_df = pd.DataFrame(sims, columns=['Similarity'])
+        del sims
+        tag_df = pd.DataFrame(doc_idxs, columns=['DocIdx'])
+        sim_df = pd.merge(sim_df, tag_df, left_index=True, right_on='DocIdx', how='inner')
+        df = load_quotes()
+        df = pd.merge(df, sim_df, left_index=True, right_on='DocIdx')
+        df = df.sort_values(['Similarity'], ascending=False).head(10)
+    else:
+        sims = sorted(enumerate(sims), key=lambda item: -item[1])
+        df = load_quotes()
+        df = df.iloc[list(map(lambda tup: tup[0], sims[:10]))]
+        del sims
+    # filter by tags if needed
+    return df.to_json(orient = "records")
 
 if __name__ == '__main__':
-    print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart")), indent=4))
-    print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("I wish school was easier")), indent=4))
-    #print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart")), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart", tags=['friendship', 'friends'])), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("I wish school was easier")), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier", tags=['school'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("My friends and I are drifting away from each other", tags=['friendship'])), indent=4))

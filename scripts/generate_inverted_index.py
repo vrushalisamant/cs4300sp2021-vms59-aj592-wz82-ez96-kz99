@@ -8,13 +8,9 @@ import os
 import string
 
 
-dfs = []
-for fname in os.listdir('../quotes_likes/'):
-    fpath = os.path.join('../quotes_likes', fname)
-    if not os.path.isfile(fpath) or not fname.startswith('quotes_'): continue
-    dfs.append(pd.read_csv(fpath, header=0))
+df = pd.read_csv('quotes_likes/quotes_likes_0-100K.csv',header=0)
+df = df.head(10000)
 # inverted index for tags
-df = pd.concat(dfs).reset_index(drop=True)
 df = df[['quote', 'author', 'tags', 'likes']]
 df['tags'] = df['tags'].str.split(',')
 df['tags'] = df['tags'].apply(lambda l: list(map(lambda element: element.strip(), l)) if type(l)==list else l)
@@ -27,7 +23,7 @@ for index, row in df.iterrows():
     for tag in row['tags']:
         tags[tag].append(index)
 
-with open('../quotes_likes/inverted_idx_tags.pickle', 'wb') as f:
+with open('quotes_likes/inverted_idx_tags.pickle', 'wb') as f:
     pickle.dump(tags, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 # inverted index for terms in quotes
@@ -44,5 +40,5 @@ for index, row in df.iterrows():
         else: inv_idx[tok]=[(doc_id, count)]
     doc_id += 1
 
-with open('../quotes_likes/inverted_idx_tf.pickle', 'wb') as f:
+with open('quotes_likes/inverted_idx_tf.pickle', 'wb') as f:
     pickle.dump(inv_idx, f, protocol=pickle.HIGHEST_PROTOCOL)
