@@ -19,20 +19,13 @@ function App() {
     //modify searchInfo here
     setInfo(searchInfo);
     setLoading(true);
-    //tags only
-    // var tags = queryString.stringify({tags:searchInfo.tags});
-    // console.log(tags);
-    // fetch(`/search?${tags}`).then(
-    //   response => response.json()
-    // ).then(data => {
-    //   setResult(data);
-    //   setOutput(true);
-    // })
 
     //SVD
     var query = queryString.stringify({ text: searchInfo.text });
     console.log(query);
-    fetch(`/search/text?${query}`)
+    var tags = queryString.stringify({ tags: searchInfo.tags });
+    console.log(tags);
+    fetch(`/search?${query}&${tags}`)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
