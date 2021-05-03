@@ -5,11 +5,25 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TagSelect from "./Components/TagSelect.js";
+import { isDOMComponent } from "react-dom/test-utils";
 
 function Input(props) {
   const [selected, setSelected] = useState([]);
   const [text, setText] = useState("");
   const [emoji, setEmoji] = useState("");
+
+  const emoji_rank = (icon) => {
+    var wholesome_part = 0.8;
+    if (icon === "😐") {
+      wholesome_part = 0.2
+    }
+    else if (icon === "😢") {
+      wholesome_part = 0.4
+    }
+    else if (icon === "😰") {
+      wholesome_part = 0.6
+    }
+  }
 
   return (
     <Container className="input">
@@ -48,27 +62,27 @@ function Input(props) {
             <Col className="moodbar">
               <Form.Group controlId="moodRange">
                 <Form.Label className="text">
-                  {'Indicate your emotional state:  '+ emoji}
+                  {'Indicate your emotional state:  ' + emoji}
                 </Form.Label>
               </Form.Group>
               <Row className="ml-3">
                 <Col>
-                  <p className="emoji" onClick={() => {setEmoji("😐")}}>
+                  <p className="emoji" onClick={() => { setEmoji("😐") }}>
                     😐
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {setEmoji("😢")}}>
+                  <p className="emoji" onClick={() => { setEmoji("😢") }}>
                     😢
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {setEmoji("😰")}}>
+                  <p className="emoji" onClick={() => { setEmoji("😰") }}>
                     😰
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {setEmoji("😭")}}>
+                  <p className="emoji" onClick={() => { setEmoji("😭") }}>
                     😭
                   </p>
                 </Col>
