@@ -53,8 +53,7 @@ function Input(props) {
                   }}
                 />
                 <Form.Text className="text-muted">
-                  Are you feeling lonely? Troubled by anything? Tell us about it
-                  :)
+                  Feeling troubled by anything? Tell us about it :)
                 </Form.Text>
               </Form.Group>
             </Col>
@@ -65,7 +64,7 @@ function Input(props) {
                   {'Indicate your emotional state:  ' + emoji}
                 </Form.Label>
               </Form.Group>
-              <Row className="ml-3">
+              <Row>
                 <Col>
                   <p className="emoji" onClick={() => { setEmoji("😐") }}>
                     😐
