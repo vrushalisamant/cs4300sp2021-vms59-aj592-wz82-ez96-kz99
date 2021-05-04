@@ -169,11 +169,11 @@ def get_lsi_sim(query, tags=[]):
     del dictionary
     del lsi
     del stop_words
+    sim_df = pd.DataFrame(sims, columns=['Similarity'])
 
     if tags:
         #sims = [[i,sim] for i, sim in enumerate(sims)]
         doc_idxs = merge_postings_n(tags)
-        sim_df = pd.DataFrame(sims, columns=['Similarity'])
         del sims
         tag_df = pd.DataFrame(doc_idxs, columns=['DocIdx'])
         sim_df = pd.merge(sim_df, tag_df, left_index=True, right_on='DocIdx', how='inner')
@@ -181,18 +181,18 @@ def get_lsi_sim(query, tags=[]):
         df = pd.merge(df, sim_df, left_index=True, right_on='DocIdx')
         df = df.sort_values(['Similarity'], ascending=False).head(10)
     else:
-        sims = sorted(enumerate(sims), key=lambda item: -item[1])
         df = load_quotes()
-        df = df.iloc[list(map(lambda tup: tup[0], sims[:10]))]
+        df = pd.merge(sim_df, df, left_index=True, right_index=True, how='inner')
         del sims
+        df = df.sort_values(['Similarity'], ascending=False).head(10)
     # filter by tags if needed
     return df.to_json(orient = "records")
 
 if __name__ == '__main__':
-    #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart")), indent=4))
+    print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart")), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("My friends and I are growing apart", tags=['friendship', 'friends'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_lsi_sim("I wish school was easier")), indent=4))
-    print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
+    #print(json.dumps(json.JSONDecoder().decode(get_category_matches(['inspirational','philosophy'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier")), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("I wish school was easier", tags=['school'])), indent=4))
     #print(json.dumps(json.JSONDecoder().decode(get_cos_sim("My friends and I are drifting away from each other", tags=['friendship'])), indent=4))

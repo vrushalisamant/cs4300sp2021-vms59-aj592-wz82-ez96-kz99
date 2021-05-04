@@ -19,6 +19,8 @@ function Output(props) {
         author={data[i].author}
         categories={data[i].tags}
         likes={data[i].likes}
+        score={data[i].Similarity}
+        idx={data[i].DocIdx}
       />
     );
   }

@@ -30,7 +30,12 @@ function App() {
       .then((data) => {
         setLoading(false);
         setResult(data);
-        //[{quote: string, author: string, tags: [string], likes: number}]
+        /*[{quote: string, 
+        author: string, 
+        tags: [string], 
+        likes: number, 
+        Similarity: number,
+        DocIdx: number}]*/
         setOutput(true);
       });
   };
@@ -81,7 +86,7 @@ function App() {
       <div className="footer">
         <p>
           Created by: Amber Zheng, Anya Ji, Eunice Zhang, Kai Zou, Vrushali
-          Samant{" "}
+          Samant
         </p>
       </div>
     </div>
