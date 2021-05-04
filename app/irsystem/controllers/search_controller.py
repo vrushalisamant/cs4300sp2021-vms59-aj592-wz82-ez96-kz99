@@ -19,6 +19,7 @@ def search_text():
 	if (query is None):
 		return ""
 	print(query)
+	wholesome_weight = int(request.args.get("wholesome"))
 	tags = request.args.getlist("tags")
 	if (len(tags)==0):
   		print(get_lsi_sim(query))
@@ -26,6 +27,4 @@ def search_text():
 		# tags.append(request.args.get("tags"))
 	print(tags)
 	print(get_lsi_sim(query, tags))
-	return get_lsi_sim(query, tags)
-
-
+	return get_lsi_sim(query, tags, wholesome_weight)
