@@ -10,3 +10,4 @@ vagrant/a4keypair.pem
 */.DS_Store
 quolesome-ness/node_modules
 cs4300-env/
+build/

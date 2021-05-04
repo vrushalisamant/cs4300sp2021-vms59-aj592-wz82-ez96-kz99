@@ -10,7 +10,6 @@ function Input(props) {
   const [selected, setSelected] = useState([]);
   const [text, setText] = useState("");
   const [emoji, setEmoji] = useState("");
-
   return (
     <Container className="input">
       <Form>
