@@ -10,6 +10,8 @@ function Input(props) {
   const [selected, setSelected] = useState([]);
   const [text, setText] = useState("");
   const [emoji, setEmoji] = useState("");
+  const [wholesome, setWholesome] = useState("");
+
   return (
     <Container className="input">
       <Form>
@@ -43,7 +45,7 @@ function Input(props) {
             <Col className="moodbar">
               <Form.Group controlId="moodRange">
                 <Form.Label className="text">
-                  {"Indicate your emotional state:" + emoji}
+                  {"Indicate your emotional state: " + emoji}
                 </Form.Label>
               </Form.Group>
               <Row>
@@ -52,6 +54,7 @@ function Input(props) {
                     className="emoji"
                     onClick={() => {
                       setEmoji("😐");
+                      setWholesome("0.2");
                     }}
                   >
                     😐
@@ -62,6 +65,7 @@ function Input(props) {
                     className="emoji"
                     onClick={() => {
                       setEmoji("😢");
+                      setWholesome("0.4");
                     }}
                   >
                     😢
@@ -72,6 +76,7 @@ function Input(props) {
                     className="emoji"
                     onClick={() => {
                       setEmoji("😰");
+                      setWholesome("0.6");
                     }}
                   >
                     😰
@@ -82,6 +87,7 @@ function Input(props) {
                     className="emoji"
                     onClick={() => {
                       setEmoji("😭");
+                      setWholesome("0.8");
                     }}
                   >
                     😭
