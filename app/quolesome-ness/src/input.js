@@ -2,10 +2,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/iRow";
+import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TagSelect from "./Components/TagSelect.js";
-import { isDOMComponent } from "react-dom/test-utils";
 
 function Input(props) {
   const [selected, setSelected] = useState([]);
@@ -51,34 +50,46 @@ function Input(props) {
               </Form.Group>
               <Row>
                 <Col>
-                  <p className="emoji" onClick={() => {
-                    setEmoji("😐");
-                    setWholesome("0.2");
-                  }}>
+                  <p
+                    className="emoji"
+                    onClick={() => {
+                      setEmoji("😐");
+                      setWholesome("0.2");
+                    }}
+                  >
                     😐
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {
-                    setEmoji("😢");
-                    setWholesome("0.4");
-                  }}>
+                  <p
+                    className="emoji"
+                    onClick={() => {
+                      setEmoji("😢");
+                      setWholesome("0.4");
+                    }}
+                  >
                     😢
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {
-                    setEmoji("😰");
-                    setWholesome("0.6");
-                  }}>
+                  <p
+                    className="emoji"
+                    onClick={() => {
+                      setEmoji("😰");
+                      setWholesome("0.6");
+                    }}
+                  >
                     😰
                   </p>
                 </Col>
                 <Col>
-                  <p className="emoji" onClick={() => {
-                    setEmoji("😭");
-                    setWholesome("0.8");
-                  }}>
+                  <p
+                    className="emoji"
+                    onClick={() => {
+                      setEmoji("😭");
+                      setWholesome("0.8");
+                    }}
+                  >
                     😭
                   </p>
                 </Col>
@@ -108,7 +119,7 @@ function Input(props) {
           </Col>
         </Row>
       </Form>
-    </Container >
+    </Container>
   );
 }
 export default Input;

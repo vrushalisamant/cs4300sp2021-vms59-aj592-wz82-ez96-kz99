@@ -11,6 +11,8 @@ from gensim import similarities, corpora, models
 from nltk.corpus import stopwords
 from nltk import download
 import ssl
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
 try:
     _create_unverified_https_context = ssl._create_unverified_context
 except AttributeError:
