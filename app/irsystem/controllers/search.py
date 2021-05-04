@@ -7,7 +7,7 @@ import os
 import sys
 from nltk.tokenize import TreebankWordTokenizer
 from collections import Counter
-from gensim import similarities, corpora, models
+from gensim import similarities, corpora, models, downloader
 from nltk.corpus import stopwords
 from nltk import download
 import ssl
@@ -20,6 +20,13 @@ except AttributeError:
 else:
     ssl._create_default_https_context = _create_unverified_https_context
 download('stopwords')
+model_t = downloader.load('glove-twitter-200')
+
+def min_max_norm(max_l, min_l, count):
+    '''
+    Calculates the min max normalized like count
+    '''
+    return (count - min_l) / (max_l - min_l)
 
 def load_quotes():
     '''
@@ -34,6 +41,12 @@ def load_quotes():
     df = df[['quote', 'author', 'tags', 'likes']]
     df['tags'] = df['tags'].str.split(',')
     df = df[df['tags'].notnull()]
+    max_df = df['likes'].max()
+    min_df = df['likes'].min()
+    '''
+    df.assign(Normalized_likes=
+    [min_max_norm(max_df, min_df, likes) for likes in df['likes']])
+    '''
     return df
 
 def load_tags_idx():
@@ -159,11 +172,32 @@ def get_categories():
     '''Return categories for drop-down menu'''
     return load_tags_idx().keys()
 
-def get_lsi_sim(query, tags=[]):
+def query_expansion(query_arr):
+    '''
+    Using Twitter Glove, generate two extra word embeddings 
+    for each important word in the free text input for 
+    query expansion.
+    '''
+    expanded_query = query_arr.copy()
+    for word in query_arr: 
+        embeddings = model_t.most_similar(word)[0:2]
+        for e in embeddings:
+            expanded_query.append(e[0])
+    return expanded_query
+
+def rank_score(wholesome_weight):
+    '''
+    Calculate a rank score affected by user's mood,
+    altering the order of quotes.
+    '''
+    pass 
+
+def get_lsi_sim(query, tags=[]): #, wholesome_weight):
     stop_words = set(stopwords.words('english')) 
     index = similarities.MatrixSimilarity.load('quotes_likes/quotes.index')
     dictionary = corpora.dictionary.Dictionary.load('quotes_likes/quotes.dict')
     doc = [word for word in query.lower().split() if word not in stop_words]
+    doc = query_expansion(doc)
     vec_bow = dictionary.doc2bow(doc)
     lsi = models.LsiModel.load('quotes_likes/quotes.model')
     vec_lsi = lsi[vec_bow]  # convert the query to LSI space
