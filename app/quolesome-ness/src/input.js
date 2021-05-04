@@ -26,10 +26,7 @@ function Input(props) {
           <Row className="feeling-moodbar">
             <Col className="feeling">
               <Form.Group controlId="feelingDescription">
-                <Form.Label className="text">
-                  What's on your mind?
-                </Form.Label>
-                {/* TODO: Extract feeling input */}
+                <Form.Label className="text">What's on your mind?</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -49,7 +46,7 @@ function Input(props) {
             <Col className="moodbar">
               <Form.Group controlId="moodRange">
                 <Form.Label className="text">
-                  {'Indicate your emotional state:  ' + emoji}
+                  {"Indicate your emotional state:" + emoji}
                 </Form.Label>
               </Form.Group>
               <Row>

@@ -1,18 +1,10 @@
 import React, { useState } from "react";
 import MultiSelect from "react-multi-select-component";
 
+
 function TagSelect(props) { 
-  const options = [
-    { label: "Life", value: "life" },
-    { label: "Love", value: "love" },
-    { label: "Inspirational", value: "inspirational"},
-    { label: "Philosophy", value: "philosophy" },
-    { label: "Humor", value: "humor" },
-    { label: "God", value: "god" },
-    { label: "Truth", value: "truth" },
-    { label: "Wisdom", value: "wisdom" },
-    { label: "Death", value: "death" },
-  ];
+  var data = require('./tag.json');
+  const options = data;
 
   return (
     <div>

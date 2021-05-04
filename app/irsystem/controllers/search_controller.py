@@ -21,9 +21,11 @@ def search_text():
 	print(query)
 	tags = request.args.getlist("tags")
 	if (len(tags)==0):
+  		print(get_lsi_sim(query))
   		return get_lsi_sim(query)
 		# tags.append(request.args.get("tags"))
 	print(tags)
+	print(get_lsi_sim(query, tags))
 	return get_lsi_sim(query, tags)
 
 
